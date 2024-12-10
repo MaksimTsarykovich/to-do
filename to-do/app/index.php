@@ -66,7 +66,7 @@ require_once "includes/functions.php";
                     </th>
                 <?php endif; ?>
                 <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                    <?= $row['data'] ?>
+                    <?= $row['date'] ?>
                 </th>
 
                 <td class="px-6 py-4">
