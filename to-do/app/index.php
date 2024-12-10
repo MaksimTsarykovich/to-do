@@ -15,6 +15,12 @@ require_once "includes/functions.php";
 <h1 class="max-w-full mb-4 text-3xl font-extrabold tracking-tight leading-none md:text-5xl dark:text-white text-center">
     Список задач</h1>
 
+<?php if (isset($_SESSION['error'])) {
+    echo '<div class="w-[600px] mx-auto p-4 mb-4 text-sm text-red-800 rounded-lg bg-red-50 dark:bg-gray-800 dark:text-red-400"
+     role="alert">' . $_SESSION['error'] . '</div>';
+    unset($_SESSION['error']);
+}
+?>
 <div class="relative overflow-x-auto sm:rounded-lg w-[80%] mx-auto mt-9">
     <a href="public/create.php"
        class="inline-block focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800">Добавить
@@ -77,7 +83,7 @@ require_once "includes/functions.php";
                         <a href="/includes/task_actions/switch_task_status.php?id=<?= $row['id'] ?>"
                            class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">Возобновить</a>
                     <?php endif; ?>
-                    <a href="public/edit.php?id=<?= $row['id'] ?>"
+                    <a href="public/edit.php?id=<?= $row['id'] ?>&name=<?= $row['name'] ?>&date=<?= $row['date'] ?>"
                        class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Изменить</a>
                     <form action="/includes/task_actions/delete_task.php" method="post" class="inline-block" >
                         <input type="hidden" value="<?= $row['id'] ?>" name="id" >

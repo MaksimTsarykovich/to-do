@@ -21,7 +21,7 @@ function getAllTasks($mysqli): array
     return mysqli_fetch_all($result, MYSQLI_ASSOC);
 }
 
-function getTaskStatus($mysqli, $task_id) : bool
+function getTaskStatus($mysqli, $task_id): bool
 {
     $sql = "SELECT `status` FROM tasks WHERE id = '$task_id'";
     if (!$result = mysqli_query($mysqli, $sql)) {
@@ -31,9 +31,9 @@ function getTaskStatus($mysqli, $task_id) : bool
     return !mysqli_fetch_row($result)[0] == 0;
 }
 
-function createTask($name, $data, $mysqli): bool
+function createTask($name, $date, $mysqli): bool
 {
-    $sql = "INSERT INTO `tasks` (`id`, `name`, `status`, `data`) VALUES (NULL, '{$name}', '0' , '{$data}')";
+    $sql = "INSERT INTO `tasks` (`id`, `name`, `status`, `date`) VALUES (NULL, '{$name}', '0' , '{$date}')";
     if (!$result = mysqli_query($mysqli, $sql)) {
         $_SESSION['error'] = "Ошибка записи задачи: " . mysqli_error($mysqli);
         return false;
@@ -41,7 +41,7 @@ function createTask($name, $data, $mysqli): bool
     return true;
 }
 
-function deleteTask($id,$mysqli): bool
+function deleteTask($id, $mysqli): bool
 {
     $sql = "DELETE FROM `tasks` WHERE `id` = '$id'";
     if (!mysqli_query($mysqli, $sql)) {
@@ -51,9 +51,9 @@ function deleteTask($id,$mysqli): bool
     return true;
 }
 
-function editTask($name, $data): bool
+function editTask($name, $date, $id, $mysqli): bool
 {
-    $sql = "UPDATE `tasks` SET `name` = '{$name}', `data` = '{$data}' WHERE `id` = '{$_GET['id']}'";
+    $sql = "UPDATE `tasks` SET `name` = '{$name}', `date` = '{$date}' WHERE `tasks`.`id` = '{$id}'";
     if (!mysqli_query($mysqli, $sql)) {
         $_SESSION['error'] = "Ошибка обновления задачи " . mysqli_error($mysqli);
         return false;
@@ -63,8 +63,8 @@ function editTask($name, $data): bool
 
 function switchTaskStatus($mysqli, $task_id): bool
 {
-    if(getTaskStatus($mysqli, $task_id)){
-        $sql = "UPDATE `tasks` SET `status` = '1' WHERE `tasks`.`id` = '$task_id'";
+    if (getTaskStatus($mysqli, $task_id)) {
+        $sql = "UPDATE `tasks` SET `status` = '0' WHERE `tasks`.`id` = '$task_id'";
     } else {
         $sql = "UPDATE `tasks` SET `status` = '1' WHERE `tasks`.`id` = '$task_id'";
     }
